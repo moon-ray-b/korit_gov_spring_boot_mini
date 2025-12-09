@@ -1,13 +1,15 @@
 package com.korit.backend_mini.service;
 
 import com.korit.backend_mini.dto.*;
-import com.korit.backend_mini.entity.Board;
+import com.korit.backend_mini.dto.board.AddBoardReqDto;
+import com.korit.backend_mini.dto.board.BoardRespDto;
+import com.korit.backend_mini.dto.board.ModifyBoardReqDto;
+import com.korit.backend_mini.dto.board.RemoveBoardReqDto;
 import com.korit.backend_mini.entity.User;
 import com.korit.backend_mini.repository.BoardRepository;
 import com.korit.backend_mini.repository.UserRepository;
 import com.korit.backend_mini.security.model.PrincipalUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class BoardService {
         if (!addBoardReqDto.getUserId().equals(principalUser.getUserId())) {
             return new ApiRespDto<>("failed", "잘못된 접근입니다.", null);
         }
+
 
         Optional<User> foundUser = userRepository.getUserByUserId(addBoardReqDto.getUserId());
         if (foundUser.isEmpty()) {

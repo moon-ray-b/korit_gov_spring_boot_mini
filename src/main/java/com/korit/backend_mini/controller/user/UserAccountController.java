@@ -1,9 +1,9 @@
-package com.korit.backend_mini.controller;
+package com.korit.backend_mini.controller.user;
 
-import com.korit.backend_mini.dto.ChangePasswordReqDto;
-import com.korit.backend_mini.dto.ChangeUsernameReqDto;
+import com.korit.backend_mini.dto.account.ChangePasswordReqDto;
+import com.korit.backend_mini.dto.account.ChangeUsernameReqDto;
 import com.korit.backend_mini.security.model.PrincipalUser;
-import com.korit.backend_mini.service.UserAccountService;
+import com.korit.backend_mini.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserAccountController {
 
     @Autowired
-    private UserAccountService userAccountService;
+    private AccountService userAccountService;
 
     @PostMapping("/change/password")
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordReqDto changePasswordReqDto, @AuthenticationPrincipal PrincipalUser principalUser) {
@@ -27,5 +27,9 @@ public class UserAccountController {
     @PostMapping("/change/username")
     public ResponseEntity<?> changeUsername(@RequestBody ChangeUsernameReqDto changeUsernameReqDto, @AuthenticationPrincipal PrincipalUser principalUser) {
         return ResponseEntity.ok(userAccountService.changeUsername(changeUsernameReqDto, principalUser));
+    }
+    @PostMapping("/withdraw")
+    public ResponseEntity<?>withdraw(@AuthenticationPrincipal PrincipalUser principalUser){
+        return ResponseEntity.ok(userAccountService.withdraw(principalUser));
     }
 }

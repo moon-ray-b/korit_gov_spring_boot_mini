@@ -1,8 +1,8 @@
 package com.korit.backend_mini.service;
 
 import com.korit.backend_mini.dto.ApiRespDto;
-import com.korit.backend_mini.dto.ChangePasswordReqDto;
-import com.korit.backend_mini.dto.ChangeUsernameReqDto;
+import com.korit.backend_mini.dto.account.ChangePasswordReqDto;
+import com.korit.backend_mini.dto.account.ChangeUsernameReqDto;
 import com.korit.backend_mini.entity.User;
 import com.korit.backend_mini.repository.UserRepository;
 import com.korit.backend_mini.security.model.PrincipalUser;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserAccountService {
+public class AccountService {
 
     @Autowired
     private UserRepository userRepository;
@@ -75,5 +75,21 @@ public class UserAccountService {
         }
 
         return new ApiRespDto<>("success", "사용자 이름이 변경되었습니다.", null);
+    }
+
+public ApiRespDto<?> withdraw(PrincipalUser principalUser) {
+    Optional<User> foundUser = userRepository.getUserByUserId(principalUser.getUserId());
+    if (foundUser.isEmpty()) {
+        return new ApiRespDto<>("failed", "회원정보가 존재하지 않습니다.", null);
+    }
+    User user = foundUser.get();
+    if (!user.isActive()) {
+        return new ApiRespDto<>("failed", "이미 탈퇴처리된 계정입니다.", null);
+    }
+    int result = userRepository.withdraw(user.getUserId());
+    if(result !=1){
+        return new ApiRespDto<>("failed", "탈퇴처리에 실패 했습니다.", null);
+}
+    return new ApiRespDto<>("success", "탈퇴 처리가 완료 됐습니다 90일뒤에 계정이사라집니다.", null);
     }
 }

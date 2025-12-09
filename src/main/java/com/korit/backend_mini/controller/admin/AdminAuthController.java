@@ -1,9 +1,8 @@
-package com.korit.backend_mini.controller;
+package com.korit.backend_mini.controller.admin;
 
-
-import com.korit.backend_mini.dto.SigninReqDto;
-import com.korit.backend_mini.dto.SignupReqDto;
-import com.korit.backend_mini.service.UserAuthService;
+import com.korit.backend_mini.dto.auth.SigninReqDto;
+import com.korit.backend_mini.dto.auth.SignupReqDto;
+import com.korit.backend_mini.service.AdminAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,19 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user/auth")
-public class UserAuthController {
-
+@RequestMapping("/admin/auth")
+public class AdminAuthController {
     @Autowired
-    private UserAuthService userAuthService;
+    private AdminAuthService adminAuthService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupReqDto signupReqDto) {
-        return ResponseEntity.ok(userAuthService.signup(signupReqDto));
+        return ResponseEntity.ok(adminAuthService.signup(signupReqDto));
     }
 
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody SigninReqDto signinReqDto) {
-        return ResponseEntity.ok(userAuthService.signin(signinReqDto));
+        return ResponseEntity.ok(adminAuthService.signin(signinReqDto));
     }
 }
